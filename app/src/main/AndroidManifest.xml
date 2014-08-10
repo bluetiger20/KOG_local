@@ -16,6 +16,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Alarm_main"
+            android:label="@string/title_activity_alarm_main" >
+        </activity>
+        <activity
+            android:name=".alert"
+            android:label="@string/title_activity_alert" >
+        </activity>
     </application>
 
 </manifest>

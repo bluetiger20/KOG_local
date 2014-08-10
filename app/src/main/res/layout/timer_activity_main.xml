@@ -14,34 +14,41 @@
         android:gravity="center"
         android:text="타이머 정보" />
 
-    <ImageView
-        android:id="@+id/imagev"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:src="@drawable/ic_launcher"/>
-
     <Button
         android:id="@+id/btnStart"
-        android:layout_toRightOf="@id/imagev"
-        android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="start Timer" />
+        android:text="start Timer"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:id="@+id/btnStop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="stop Timer" />
+        android:text="stop Timer"
+        android:layout_alignTop="@+id/btnStart"
+        android:layout_toRightOf="@+id/btnStart" />
 
     <Button
         android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btnStop"
-        android:layout_marginLeft="22dp"
-        android:layout_marginTop="20dp"
-        android:layout_toRightOf="@+id/btnStop"
-        android:text="Button" />
+        android:text="Alram"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/tvMsg"
+        android:layout_alignEnd="@+id/tvMsg"
+        android:layout_marginRight="39dp"
+        android:layout_marginBottom="41dp" />
+
+    <TextClock
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textClock"
+        android:textScaleX="4"
+        android:layout_above="@+id/btnStart"
+        android:layout_toLeftOf="@+id/btnStop"
+        android:layout_marginBottom="48dp" />
+
 
 </RelativeLayout>

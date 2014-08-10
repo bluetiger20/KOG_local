@@ -57,16 +57,17 @@ public class MainActivity extends Activity {
             }
         });
 
-//        Button btnto = (Button)findViewById(R.id.button1);
-//        btnto.setOnClickListener(new Button.OnClickListener() {
-//            public void onClick(View v) {
-//                Intent intent =
-//                        new Intent(MainActivity.this,minsu_Alarm.class);
-//                startActivity(intent);
-//                MainActivity.this.finish();
-//
-//            }
-//        });
+        Button go_to_alram = (Button)findViewById(R.id.button1);
+        go_to_alram.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MainActivity.this, Alarm_main.class);
+                startActivity(intent);
+            }
+        });
+
+
+
 
 
     }
