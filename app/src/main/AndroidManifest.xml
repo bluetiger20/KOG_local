@@ -24,6 +24,14 @@
             android:name=".alert"
             android:label="@string/title_activity_alert" >
         </activity>
+        <activity
+            android:name=".alram_list"
+            android:label="@string/title_activity_alram_list" >
+        </activity>
+        <activity
+            android:name=".DBContactHelper"
+            android:label="@string/title_activity_db" >
+        </activity>
     </application>
 
 </manifest>

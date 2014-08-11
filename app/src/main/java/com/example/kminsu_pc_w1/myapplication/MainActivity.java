@@ -61,7 +61,8 @@ public class MainActivity extends Activity {
         go_to_alram.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
 
-                Intent intent = new Intent(MainActivity.this, Alarm_main.class);
+                Intent intent = new Intent(MainActivity.this, alram_list.class);
+                //Intent intent = new Intent(MainActivity.this, Alarm_main.class);
                 startActivity(intent);
             }
         });
