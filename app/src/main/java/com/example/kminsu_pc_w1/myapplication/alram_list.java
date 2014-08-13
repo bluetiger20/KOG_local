@@ -46,7 +46,10 @@ public class alram_list extends Activity implements View.OnClickListener {
         list.add(new AlramData("a : "+contact.gethour()+" : "+contact.getminute()));
         contact=helper.getContact(1);
         list.add(new AlramData("b : "+contact.gethour()+" : "+contact.gethour()));
-       // list.(new AlramData(""+)
+
+        list  = new ArrayList<AlramData>();
+        list.add(new AlramData("a :"));
+        list.add(new AlramData("b :"));
 
         //_arrAdapter = new ArrayAdapter<String>( alram_list.this, android.R.layout.simple_list_item_1, list) ;
         listView = (ListView) findViewById(R.id.listView_test) ;
