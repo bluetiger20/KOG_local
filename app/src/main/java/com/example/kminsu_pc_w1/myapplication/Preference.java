@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public final class Preference {
     private static String TAG = "Preference";
