@@ -6,6 +6,7 @@ package com.example.kminsu_pc_w1.myapplication;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -88,9 +89,11 @@ public final class Preference {
                 .getSharedPreferences(mPrefName, Context.MODE_PRIVATE);
 
         try {
-            boolean v = prefs.getBoolean(key, true);
+            boolean v = prefs.getBoolean(key, false);
+            Log.e("test", "v: " + v);
             return v;
         } catch (ClassCastException e) {
+            Log.e("test", "e: " + e.toString());
             return false;
         }
     }

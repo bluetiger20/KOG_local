@@ -59,6 +59,8 @@ public class DBContactHelper
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
+
+     //   values.put(KEY_ID, contact.getID()); // Contact Name
         values.put(KEY_NAME, contact.gethour()); // Contact Name
         values.put(KEY_PH_NO, contact.getminute()); // Contact Phone
 

@@ -1,9 +1,9 @@
 package com.example.kminsu_pc_w1.myapplication;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -12,18 +12,22 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainActivity extends Activity {
 //    public static final int REQUEST_CODE_RINGTONE = 10005;
+
+
+
     private static final String TAG = "MainActivity";
     private TextView _text;
-    private CountDownTimer _timer;
 
-    private TimerTask mTask;
-    private Timer mTimer;
-    protected int i=0,minute=0;
+    protected int i=0,minute=0,diff_hour,diff_min;
+    boolean a=false;
 
     @Override
     protected void onResume() {
@@ -34,20 +38,18 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.timer_activity_main);
 
+        a = Preference.getBoolean(MainActivity.this, "testValue");
+        Log.i(TAG, "a : "+ a);
+        if(!a) {
+            Preference.putBoolean(MainActivity.this, "testValue", true);
+            DBContactHelper helper = new DBContactHelper(this);
+            Contact contact = new Contact(0,0,0);
+            helper.addContact(contact);
+            Contact contact2 = new Contact(1,10,0);
+            helper.addContact(contact2);
+        }
         _text = (TextView) findViewById(R.id.tvMsg);
 
-        /*_timer = new CountDownTimer(10 * 1000, 1000) {
-            public void onTick(long millisUntilFinished) {
-                _text.setText("value = " + millisUntilFinished);
-                Log.i(TAG, "타이머");
-            }
-
-            public void onFinish() {
-                _text.setText("finshed");
-            }
-
-        };
-*/
         final ToggleButton mtoggle = (ToggleButton) findViewById(R.id.toggleButton2);
         mtoggle.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View arg0) {
@@ -62,7 +64,7 @@ public class MainActivity extends Activity {
                   };
 
                         timer = new Timer();
-                        timer.schedule(adTast, 0, 20*1000); // 0초후 첫실행, 20초마다 계속실행
+                        timer.schedule(adTast, 0, 1000); // 0초후 첫실행, 20초마다 계속실행
                         Log.i(TAG, "타이머 시작");
                     }
                 } else {
@@ -81,12 +83,15 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 //@preference로 flag 설정
                 Preference.putBoolean(MainActivity.this,"Mflag", true);
-                boolean a = Preference.getBoolean(MainActivity.this, "Mflag");
+
 
                 //@preference를 불러와서 flag 확인후 set이 안되있으면 set으로 함
-                Intent intent = new Intent(MainActivity.this, alram_list.class);
-                //Intent intent = new Intent(MainActivity.this, Alarm_main.class);
-                startActivity(intent);
+
+                    Intent intent = new Intent(MainActivity.this, alram_list.class);
+                    //Intent intent = new Intent(MainActivity.this, Alarm_main.class);
+                    startActivity(intent);
+
+
             }
         });
         Button ring = (Button) findViewById(R.id.ringring);
@@ -104,12 +109,15 @@ public class MainActivity extends Activity {
         @Override
         public void handleMessage(Message msg) {
 
-            if(i==3) {
+            if(i==1) {
                 //@preference flag가 set되어 있으면
                 //@현재 시간-preference호출
                 //@preference flag가 set되어 있지 않으면
                 //@현재 시간을 preference로 저장
-                _text.setText("value = " + (++minute));
+                //_text.setText("value = " + minute);
+                timediff(MainActivity.this);
+                _text.setText(minute+"time = " + diff_hour+":" + diff_min);
+                minute++;
                 i=0;
             }
             else{
@@ -119,6 +127,28 @@ public class MainActivity extends Activity {
 
         }
     };
+
+
+    private void timediff(Context context) {
+
+        DBContactHelper helper = new DBContactHelper(context);
+        Contact contact=helper.getContact(2);
+        int id=contact.getID();
+        int hour=contact.gethour();
+        int min=contact.getminute();
+
+        Log.i(TAG, "DB : "+id+ ":"+hour+" : "+min);
+        /** The date at the end of the last century */
+
+        Date d1 = new GregorianCalendar(Calendar.YEAR,Calendar.MONTH,Calendar.DAY_OF_MONTH, hour,min).getTime();
+
+        /** Today's date */
+        Date today = new Date();
+
+        // Get msec from each, and subtract.
+        diff_hour = today.getHours() - d1.getHours();
+        diff_min=today.getMinutes()-d1.getMinutes();
+    }
 
     Timer timer;
 }
