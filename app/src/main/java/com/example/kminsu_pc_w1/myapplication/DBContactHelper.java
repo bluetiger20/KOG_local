@@ -53,13 +53,14 @@ public class DBContactHelper
      * CRUD 함수
      */
 
+
     // 새로운 Contact 함수 추가
     public void addContact(Contact contact) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_NAME, contact.getName()); // Contact Name
-        values.put(KEY_PH_NO, contact.getPhoneNumber()); // Contact Phone
+        values.put(KEY_NAME, contact.gethour()); // Contact Name
+        values.put(KEY_PH_NO, contact.getminute()); // Contact Phone
 
         // Inserting Row
         db.insert(TABLE_CONTACTS, null, values);
@@ -76,8 +77,8 @@ public class DBContactHelper
         if (cursor != null)
             cursor.moveToFirst();
 
-        Contact contact = new Contact(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1), cursor.getString(2));
+        Contact contact = new Contact(Integer.parseInt(cursor.getString(0)),Integer.parseInt(cursor.getString(1)),
+                Integer.parseInt(cursor.getString(2)));
         // return contact
         return contact;
     }
@@ -96,8 +97,8 @@ public class DBContactHelper
             do {
                 Contact contact = new Contact();
                 contact.setID(Integer.parseInt(cursor.getString(0)));
-                contact.setName(cursor.getString(1));
-                contact.setPhoneNumber(cursor.getString(2));
+                contact.sethour(Integer.parseInt(cursor.getString(1)));
+                contact.setminute(Integer.parseInt(cursor.getString(2)));
                 // Adding contact to list
                 contactList.add(contact);
             } while (cursor.moveToNext());
@@ -112,8 +113,8 @@ public class DBContactHelper
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_NAME, contact.getName());
-        values.put(KEY_PH_NO, contact.getPhoneNumber());
+        values.put(KEY_NAME, contact.gethour());
+        values.put(KEY_PH_NO, contact.getminute());
 
         // updating row
         return db.update(TABLE_CONTACTS, values, KEY_ID + " = ?",

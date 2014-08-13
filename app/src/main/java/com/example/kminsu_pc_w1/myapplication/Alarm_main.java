@@ -1,10 +1,9 @@
 package com.example.kminsu_pc_w1.myapplication;
 
 import android.app.Activity;
-import android.os.Bundle;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import android.app.*;
+import android.app.AlarmManager;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,10 +12,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
-import android.widget.DatePicker.OnDateChangedListener;
 import android.widget.TimePicker.OnTimeChangedListener;
 
-public class Alarm_main extends Activity implements OnDateChangedListener, OnTimeChangedListener {
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+public class Alarm_main extends Activity implements DatePicker.OnDateChangedListener, OnTimeChangedListener {
 
     // 알람 메니저
     private AlarmManager mManager;
@@ -60,7 +61,7 @@ public class Alarm_main extends Activity implements OnDateChangedListener, OnTim
 
         //일시 설정 클래스로 현재 시각을 설정
         mDate = (DatePicker)findViewById(R.id.date_picker);
-        mDate.init (mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH), this);
+        mDate.init (mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH),this);
         mTime = (TimePicker)findViewById(R.id.time_picker);
         mTime.setCurrentHour(mCalendar.get(Calendar.HOUR_OF_DAY));
         mTime.setCurrentMinute(mCalendar.get(Calendar.MINUTE));
@@ -69,13 +70,42 @@ public class Alarm_main extends Activity implements OnDateChangedListener, OnTim
 
     //알람의 설정
     private void setAlarm() {
-        mManager.set(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), pendingIntent());
+       // DBContactHelper helper = new DBContactHelper(Alarm_main.);
+       // helper.updateContact(new Contact(mCalendar.getTime().getHours(),mCalendar.getTime().getMinutes()));
+
+      //  mManager.set(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), pendingIntent());
+
+
+
+        Intent intent = new Intent(getApplicationContext(), alert.class);
+       PendingIntent sender = PendingIntent.getBroadcast(Alarm_main.this, 0, intent, 0);
+//@ 이 아래 부터는 반복을 위한 코드
+//알람을 시작시킬 시간, 밀리세켠드 단위로 5000 이면 5초입니다.
+//즉 5초후에 알람이 최초 발생이 시작됩니다.
+        long startTime =  mCalendar.getTimeInMillis();
+
+//알람이 주기적으로 발생할 때, 주기시간입니다. 여기서는 5초단위로 계속해서
+//알람이 발생됩니다.
+        long cycleTime = 1000;
+        //long cycleTime = 24*60*60*1000;
+
+        AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
+//알람객체의 setRepeating 메소드가 알람을 주기적으로 반복해서 발생시키게 됩니다.
+//여기서는 5초후에 알람이 최초 발생을 하고, 5초단위로 계속해서 알람이 발생하게 됩니다.
+        am.setRepeating(AlarmManager.RTC_WAKEUP, startTime, cycleTime, sender);
+
+//@시간 구해서 set하기
         Log.i("HelloAlarmActivity", mCalendar.getTime().toString());
     }
 
     //알람의 해제
     private void resetAlarm() {
+
+
         mManager.cancel(pendingIntent());
+
+
+
     }
     //알람의 설정 시각에 발생하는 인텐트 작성
     private PendingIntent pendingIntent() {
@@ -90,7 +120,7 @@ public class Alarm_main extends Activity implements OnDateChangedListener, OnTim
     }
     //시각 설정 클래스의 상태변화 리스너
     public void onTimeChanged (TimePicker view, int hourOfDay, int minute) {
-//        Log.i("hh", ""+ mDate.getMonth());
+        Log.i("hh", ""+ mDate.getMonth());
         mCalendar.set(mDate.getYear(), mDate.getMonth(), mDate.getDayOfMonth(), hourOfDay, minute);
         Log.i("HelloAlarmActivity" , "onTimeChanged : " + mCalendar.getTime().toString());
     }

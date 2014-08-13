@@ -5,21 +5,21 @@ package com.example.kminsu_pc_w1.myapplication;
  */
 public class Contact {
         int id;
-        String name;
-        String phone_number;
+        int hour;
+        int minute;
 
         public Contact(){
 
         }
-        public Contact(int id, String name, String phone_number){
+        public Contact(int id, int name, int phone_number){
             this.id = id;
-            this.name = name;
-            this.phone_number = phone_number;
+            this.hour = name;
+            this.minute = phone_number;
         }
 
-        public Contact(String name, String phone_number){
-            this.name = name;
-            this.phone_number = phone_number;
+        public Contact(int name, int phone_number){
+            this.hour = name;
+            this.minute = phone_number;
         }
 
         public int getID(){
@@ -30,19 +30,19 @@ public class Contact {
             this.id = id;
         }
 
-        public String getName(){
-            return this.name;
+        public int gethour(){
+            return this.hour;
         }
 
-        public void setName(String name){
-            this.name = name;
+        public void sethour(int name){
+            this.hour = name;
         }
 
-        public String getPhoneNumber(){
-            return this.phone_number;
+        public int getminute(){
+            return this.minute;
         }
 
-        public void setPhoneNumber(String phone_number){
-            this.phone_number = phone_number;
+        public void setminute(int phone_number){
+            this.minute = phone_number;
         }
 }

@@ -1,6 +1,7 @@
 package com.example.kminsu_pc_w1.myapplication;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -22,17 +23,42 @@ public class alram_list extends Activity implements View.OnClickListener {
 
         settingListView() ;
         buttonHandle() ;
+        Button go_to_alram = (Button)findViewById(R.id.addAlram);
+        go_to_alram.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+
+                Intent intent = new Intent(alram_list.this, Alarm_main.class);
+                //Intent intent = new Intent(MainActivity.this, Alarm_main.class);
+                startActivity(intent);
+            }
+        });
+
     }
     String[] arr = null;
+    ArrayList<AlramData> list;
     private void settingListView() {
-        ArrayList<AlarmData> list  = new ArrayList<AlarmData>();
-        list.add(new AlarmData("a"));
-        list.add(new AlarmData("b"));
-        list.add(new AlarmData("c"));
-        list.add(new AlarmData("d"));
+     //   DBContactHelper helper = new DBContactHelper(convertview.getContext());
+      //@ DB정보 불러오기
+        DBContactHelper helper = new DBContactHelper(this);
+        Contact contact;
+        contact=helper.getContact(0);
+        list  = new ArrayList<AlramData>();
+        list.add(new AlramData("a : "+contact.gethour()+" : "+contact.getminute()));
+        contact=helper.getContact(1);
+        list.add(new AlramData("b : "+contact.gethour()+" : "+contact.gethour()));
+       // list.(new AlramData(""+)
+
         //_arrAdapter = new ArrayAdapter<String>( alram_list.this, android.R.layout.simple_list_item_1, list) ;
         listView = (ListView) findViewById(R.id.listView_test) ;
-        listView.setAdapter(new AlarmAdapter(this, list) ) ;
+        listView.setAdapter(new AlramAdapter(this, list) ) ;
+//        listView.setClickable(true);
+//
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Toast.makeText(alram_list.this, "선택된자의 이름은 " + list.get(position).name, Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
     private void buttonHandle() {

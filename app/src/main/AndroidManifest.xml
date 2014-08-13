@@ -29,9 +29,12 @@
             android:label="@string/title_activity_alram_list" >
         </activity>
         <activity
-            android:name=".DBContactHelper"
-            android:label="@string/title_activity_db" >
+            android:name=".Klaxon"
+            android:label="@string/title_activity_klaxon" >
         </activity>
+
+
     </application>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
 </manifest>

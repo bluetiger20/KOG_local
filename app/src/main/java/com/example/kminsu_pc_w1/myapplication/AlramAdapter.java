@@ -1,25 +1,25 @@
 package com.example.kminsu_pc_w1.myapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 /**
  * Created by KMINSU-PC-W1 on 2014-08-11.
  */
-public class AlarmAdapter extends BaseAdapter{
+public class AlramAdapter extends BaseAdapter{
     private LayoutInflater inflater = null;
-    private ArrayList<AlarmData> infoList = null;
+    private ArrayList<AlramData> infoList = null;
     private ViewHolder viewHolder = null;
-    private Context mContext = null;
+    public Context mContext = null;
 
-    public AlarmAdapter(Context c , ArrayList<AlarmData> arrays){
+    public AlramAdapter(Context c, ArrayList<AlramData> arrays){
         this.mContext = c;
         this.inflater = LayoutInflater.from(c);
         this.infoList = arrays;
@@ -33,7 +33,7 @@ public class AlarmAdapter extends BaseAdapter{
 
     // Adapter가 관리하는 Data의 Item 의 Position을 <객체> 형태로 얻어 옵니다.
     @Override
-    public AlarmData getItem(int position) {
+    public AlramData getItem(int position) {
         return infoList.get(position);
     }
 
@@ -45,13 +45,31 @@ public class AlarmAdapter extends BaseAdapter{
 
     // ListView의 뿌려질 한줄의 Row를 설정 합니다.
     @Override
-    public View getView(int position, View convertview, ViewGroup parent) {
+    public View getView(final int position, View convertview, ViewGroup parent) {
 
+//        DBContactHelper helper = new DBContactHelper(convertview.getContext());
+//        helper.addContact(new Contact("Name","Phone-number"));
+/*
+        DBContactHelper helper = new DBContactHelper(convertview.getContext());
+        Contact contact;
+        contact=helper.getContact(position);
+        contact.gethour();
+        contact.getminute();*/
         View v = convertview;
+
 
         if(v == null){
             viewHolder = new ViewHolder();
             v = inflater.inflate(R.layout.list_row, null);
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(v.getContext(), Alarm_main.class);
+                    intent.putExtra("position", position);
+                    v.getContext().startActivity(intent);
+                }
+            });
+
             viewHolder.tv_title = (TextView)v.findViewById(R.id.child_textview);
             viewHolder.tv_title.setText(infoList.get(position).name);
             v.setTag(viewHolder);
@@ -62,14 +80,16 @@ public class AlarmAdapter extends BaseAdapter{
         return v;
     }
 
+
+
     // Adapter가 관리하는 Data List를 교체 한다.
     // 교체 후 Adapter.notifyDataSetChanged() 메서드로 변경 사실을
     // Adapter에 알려 주어 ListView에 적용 되도록 한다.
-    public void setArrayList(ArrayList<AlarmData> arrays){
+    public void setArrayList(ArrayList<AlramData> arrays){
         this.infoList = arrays;
     }
 
-    public ArrayList<AlarmData> getArrayList(){
+    public ArrayList<AlramData> getArrayList(){
         return infoList;
     }
 
