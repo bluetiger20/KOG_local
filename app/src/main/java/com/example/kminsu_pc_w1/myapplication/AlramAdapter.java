@@ -70,6 +70,16 @@ public class AlramAdapter extends BaseAdapter{
                     if(position==1)
                         Toast.makeText(v.getContext(), "선택된자의 이름은 목표시간", Toast.LENGTH_SHORT).show();
 
+         /*           LayoutInflater mLayout = LayoutInflater.from(v.getContext());
+                    mLayout.inflate(R.layout.lert_dialog_text_entry, null);
+
+                    AlertDialog dialogBox = new AlertDialog.Builder(v.getContext())
+                            .setTitle("title")
+                            .setView(mLayout)
+                    .create();
+                    dialogBox.show();
+*/
+
                     Intent intent = new Intent(v.getContext(), Alarm_main.class);
                     intent.putExtra("position", position);
                     v.getContext().startActivity(intent);

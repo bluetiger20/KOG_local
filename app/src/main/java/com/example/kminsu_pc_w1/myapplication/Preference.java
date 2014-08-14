@@ -126,10 +126,10 @@ public final class Preference {
                 .getSharedPreferences(mPrefName, Context.MODE_PRIVATE);
 
         try {
-            long v = prefs.getLong(key, Long.MIN_VALUE);
+            long v = prefs.getLong(key, 0);
             return v;
         } catch (ClassCastException e) {
-           return 0;
+           return Long.MIN_VALUE;
            // return Long.MIN_VALUE;
         }
     }

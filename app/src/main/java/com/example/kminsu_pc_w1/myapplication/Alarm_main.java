@@ -45,6 +45,12 @@ public class Alarm_main extends Activity implements DatePicker.OnDateChangedList
         Log.i("HelloAlarmActivity",mCalendar.getTime().toString());
         //셋 버튼, 리셋버튼의 리스너를 등록
         setContentView(R.layout.alram);
+
+
+
+
+
+
         Button b = (Button)findViewById(R.id.set);
         b.setOnClickListener (new View.OnClickListener() {
             public void onClick (View v) {

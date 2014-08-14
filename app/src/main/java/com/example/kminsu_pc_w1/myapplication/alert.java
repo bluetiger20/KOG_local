@@ -22,7 +22,11 @@ public class alert extends Activity{
     private Ringtone r;
 
     @Override
+    
     protected void onCreate(Bundle savedInstanceState) {
+
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alert);
         vibrate_function();

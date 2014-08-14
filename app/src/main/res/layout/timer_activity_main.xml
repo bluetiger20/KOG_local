@@ -53,7 +53,7 @@
             android:id="@+id/ringring"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="rington"
+            android:text="finish"
             android:textSize="30dp"
             android:layout_alignTop="@+id/btnStart"
             android:layout_alignRight="@+id/button1"
@@ -87,8 +87,6 @@
             android:paddingBottom="10dp" />
 
     </LinearLayout>
-
-
 
 
 </RelativeLayout>

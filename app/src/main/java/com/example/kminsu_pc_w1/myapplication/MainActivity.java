@@ -58,8 +58,7 @@ public class MainActivity extends Activity {
 
                     if(timer == null) {
                         Date start = new Date();
-
-                        Preference.putLong(MainActivity.this, "start", start.getTime()-mills);
+                        Preference.putLong(MainActivity.this, "start", start.getTime()-Preference.getLong(MainActivity.this,"diff"));
                            TimerTask adTast = new TimerTask() {
                       public void run() {
                         mHandler.sendEmptyMessage(0);
@@ -100,9 +99,17 @@ public class MainActivity extends Activity {
         Button ring = (Button) findViewById(R.id.ringring);
         ring.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Klaxon.class);
+                Preference.putLong(MainActivity.this, "diff",0);
+                _text.setText("타이머 정보");
+
+                    if(timer != null) {
+                        timer.cancel();
+                        Log.i(TAG, "타이머 스탑");
+                        timer = null;
+                    }
+                //Intent intent = new Intent(MainActivity.this, Klaxon.class);
                 //Intent intent = new Intent(MainActivity.this, Alarm_main.class);
-                startActivity(intent);
+                //startActivity(intent);
             }
         });
     }
@@ -149,7 +156,10 @@ public class MainActivity extends Activity {
             int Mins = (int) (mills/(1000*60)) % 60;
             int Seconds = (int) (mills/1000)%60;
 
+
+
             String diff = Hours + ":" + Mins+":"+Seconds; // updated value every1 second
+
 
             return diff;
          }
