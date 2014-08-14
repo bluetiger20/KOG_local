@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -20,7 +22,7 @@ public class alram_list extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alram_list);
 
-        settingListView() ;
+        settingListView();
         Button go_to_alram = (Button)findViewById(R.id.addAlram);
         go_to_alram.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
@@ -32,12 +34,16 @@ public class alram_list extends Activity implements View.OnClickListener {
         });
 
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        settingListView();
+        Toast.makeText(alram_list.this, "Resume", Toast.LENGTH_SHORT).show();
+    }
     String[] arr = null;
     ArrayList<AlramData> list;
 
     private void settingListView() {
-     //   DBContactHelper helper = new DBContactHelper(convertview.getContext());
-      //@ DB정보 불러오기
         DBContactHelper helper = new DBContactHelper(this);
         Contact contact;
         String output="기상시간 : ";
@@ -51,8 +57,9 @@ public class alram_list extends Activity implements View.OnClickListener {
             output+=": 0"+contact.getminute();
         else
             output+=": "+contact.getminute();
-
         list.add(new AlramData(output));
+
+
         contact=helper.getContact(2);
         output="목표시간 : ";
         if(contact.gethour()<10)

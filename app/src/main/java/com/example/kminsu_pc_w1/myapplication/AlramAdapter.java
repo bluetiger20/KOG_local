@@ -65,11 +65,18 @@ public class AlramAdapter extends BaseAdapter{
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(position==0)
-                        Toast.makeText(v.getContext(), "선택된자의 이름은 기상시간", Toast.LENGTH_SHORT).show();
-                    if(position==1)
-                        Toast.makeText(v.getContext(), "선택된자의 이름은 목표시간", Toast.LENGTH_SHORT).show();
-
+                    if(position==0) {
+                        Intent intent = new Intent(v.getContext(), Alarm_main.class);
+                        intent.putExtra("position", position);
+                        v.getContext().startActivity(intent);
+                        Toast.makeText(v.getContext(), "선택된자의 이름은 기상시간", 2).show();
+                    }
+                        if(position==1) {
+                            Intent intent = new Intent(v.getContext(), Alarm_main.class);
+                            intent.putExtra("position", position);
+                            v.getContext().startActivity(intent);
+                            Toast.makeText(v.getContext(), "선택된자의 이름은 목표시간", 2).show();
+                        }
          /*           LayoutInflater mLayout = LayoutInflater.from(v.getContext());
                     mLayout.inflate(R.layout.lert_dialog_text_entry, null);
 
@@ -80,9 +87,6 @@ public class AlramAdapter extends BaseAdapter{
                     dialogBox.show();
 */
 
-                    Intent intent = new Intent(v.getContext(), Alarm_main.class);
-                    intent.putExtra("position", position);
-                    v.getContext().startActivity(intent);
 
 
                 }

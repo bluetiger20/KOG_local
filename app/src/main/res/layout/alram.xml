@@ -41,33 +41,45 @@ android:orientation="vertical" >
     android:textStyle="bold" >
 </TextView>
 
-<LinearLayout
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+
+        <Button
+            android:id="@+id/set"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:background="@android:color/white"
+            android:clickable="true"
+            android:text="Set"
+            android:textColor="#5DBCD2"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"/>
+
+        <Button
+            android:id="@+id/reset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:clickable="true"
+            android:text="Reset"
+            android:textColor="#5DBCD2"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:background="#3E80B4"
     android:orientation="horizontal" >
 
-    <Button
-        android:id="@+id/reset"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        android:background="@android:color/white"
-        android:clickable="true"
-        android:text="Reset"
-        android:textColor="#5DBCD2"
-        android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/set"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        android:layout_marginLeft="5dp"
-        android:background="@android:color/white"
-        android:clickable="true"
-        android:text="Set"
-        android:textColor="#5DBCD2"
-        android:textStyle="bold" />
-</LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

@@ -21,9 +21,9 @@ public class MainActivity extends Activity {
 //    public static final int REQUEST_CODE_RINGTONE = 10005;
 
 
-
     private static final String TAG = "MainActivity";
     private TextView _text;
+    private TextView _text2;
 
     protected int i=0,minute=0,diff_hour,diff_min;
     boolean a=false;
@@ -31,32 +31,73 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onResume() {
+
+
         super.onResume();
+if(Preference.getString(MainActivity.this,"Resumetimer")=="")
+    _text.setText("00:00:00");
+        else
+        _text.setText(Preference.getString(MainActivity.this,"Resumetimer"));
+
+
+    DBContactHelper helper = new DBContactHelper(this);
+        Contact contact3=helper.getContact(2);
+        _text2.setText(
+                (contact3.gethour()/10==0 ? "0"+contact3.gethour() : contact3.gethour())
+                        +" : "+ (contact3.getminute()/10 == 0 ? "0" + contact3.getminute() : contact3.getminute() )+" : "+"00");
+
+
+
+        final ToggleButton mtoggle = (ToggleButton) findViewById(R.id.toggleButton2);
+        if ( Preference.getBoolean(MainActivity.this, "toggle")) {
+            mtoggle.setChecked(true);
+
+            if (timer == null) {
+                Date start = new Date();
+                Preference.putLong(MainActivity.this, "start", start.getTime() - Preference.getLong(MainActivity.this, "diff"));
+                TimerTask adTast = new TimerTask() {
+                    public void run() {
+                        mHandler.sendEmptyMessage(0);
+                    }
+                };
+                timer = new Timer();
+                timer.schedule(adTast, 0, 1000); // 0초후 첫실행, 1초마다 계속실행
+            }
+        }
     }
 
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.timer_activity_main);
 
         a = Preference.getBoolean(MainActivity.this, "testValue");
         Log.i(TAG, "a : "+ a);
+        DBContactHelper helper = new DBContactHelper(this);
+
         if(!a) {
             Preference.putBoolean(MainActivity.this, "testValue", true);
-            DBContactHelper helper = new DBContactHelper(this);
             Contact contact = new Contact(0,00,00);
             helper.addContact(contact);
             Contact contact2 = new Contact(1,10,00);
             helper.addContact(contact2);
         }
         _text = (TextView) findViewById(R.id.tvMsg);
+        _text2 = (TextView) findViewById(R.id.goal);
+        Contact contact3=helper.getContact(2);
+        _text2.setText(
+                (contact3.gethour()/10==0 ? "0"+contact3.gethour() : contact3.gethour())
+                +" : "+ (contact3.getminute()/10 == 0 ? "0" + contact3.getminute() : contact3.getminute() )+" : "+"00");
+
 
         final ToggleButton mtoggle = (ToggleButton) findViewById(R.id.toggleButton2);
         mtoggle.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View arg0) {
 
                 if (mtoggle.isChecked()) {
-
+                    Preference.putBoolean(MainActivity.this, "toggle",true);
                     if(timer == null) {
+
                         Date start = new Date();
                         Preference.putLong(MainActivity.this, "start", start.getTime()-Preference.getLong(MainActivity.this,"diff"));
                            TimerTask adTast = new TimerTask() {
@@ -70,6 +111,7 @@ public class MainActivity extends Activity {
                         Log.i(TAG, "타이머 시작");
                     }
                 } else {
+                    Preference.putBoolean(MainActivity.this, "toggle",false);
                     if(timer != null) {
                     timer.cancel();
                     Log.i(TAG, "타이머 스탑");
@@ -100,7 +142,7 @@ public class MainActivity extends Activity {
         ring.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 Preference.putLong(MainActivity.this, "diff",0);
-                _text.setText("타이머 정보");
+                _text.setText("00:00:00");
 
                     if(timer != null) {
                         timer.cancel();
@@ -124,13 +166,6 @@ public class MainActivity extends Activity {
                 //@preference flag가 set되어 있지 않으면
                 //@현재 시간을 preference로 저장
                 _text.setText(timediff(MainActivity.this));
-
-
-
-                minute++;
-
-
-
         }
     };
 
@@ -158,8 +193,11 @@ public class MainActivity extends Activity {
 
 
 
-            String diff = Hours + ":" + Mins+":"+Seconds; // updated value every1 second
+            String diff =
+                    (Hours/10==0 ? "0"+Hours:Hours)
+                    + ":" + (Mins/10==0 ? "0"+Mins:Mins)+":"+(Seconds/10==0 ? "0"+Seconds:Seconds); // updated value every1 second
 
+            Preference.putString(MainActivity.this,"Resumetimer",diff);
 
             return diff;
          }
