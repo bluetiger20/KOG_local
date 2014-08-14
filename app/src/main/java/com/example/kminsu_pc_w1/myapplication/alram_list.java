@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -22,7 +21,6 @@ public class alram_list extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_alram_list);
 
         settingListView() ;
-        buttonHandle() ;
         Button go_to_alram = (Button)findViewById(R.id.addAlram);
         go_to_alram.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
@@ -36,20 +34,42 @@ public class alram_list extends Activity implements View.OnClickListener {
     }
     String[] arr = null;
     ArrayList<AlramData> list;
+
     private void settingListView() {
      //   DBContactHelper helper = new DBContactHelper(convertview.getContext());
       //@ DB정보 불러오기
         DBContactHelper helper = new DBContactHelper(this);
         Contact contact;
-        contact=helper.getContact(0);
-        list  = new ArrayList<AlramData>();
-        list.add(new AlramData("a : "+contact.gethour()+" : "+contact.getminute()));
+        String output="기상시간 : ";
         contact=helper.getContact(1);
-        list.add(new AlramData("b : "+contact.gethour()+" : "+contact.gethour()));
+        list  = new ArrayList<AlramData>();
+        if(contact.gethour()<10)
+            output+="0"+contact.gethour();
+        else
+            output+=contact.gethour();
+        if(contact.getminute()<10)
+            output+=": 0"+contact.getminute();
+        else
+            output+=": "+contact.getminute();
 
+        list.add(new AlramData(output));
+        contact=helper.getContact(2);
+        output="목표시간 : ";
+        if(contact.gethour()<10)
+            output+="0"+contact.gethour();
+        else
+            output+=contact.gethour();
+        if(contact.getminute()<10)
+            output+=": 0"+contact.getminute();
+        else
+            output+=": "+contact.getminute();
+        list.add(new AlramData(output));
+
+/*
         list  = new ArrayList<AlramData>();
         list.add(new AlramData("a :"));
         list.add(new AlramData("b :"));
+*/
 
         //_arrAdapter = new ArrayAdapter<String>( alram_list.this, android.R.layout.simple_list_item_1, list) ;
         listView = (ListView) findViewById(R.id.listView_test) ;
@@ -64,16 +84,11 @@ public class alram_list extends Activity implements View.OnClickListener {
 //        });
     }
 
-    private void buttonHandle() {
-        Button addItemBtn = (Button) findViewById( R.id.addBtn ) ;
-        addItemBtn.setOnClickListener( this ) ;
-    }
-
     @Override
     public void onClick(View v) {
-        EditText editText = (EditText) findViewById( R.id.editField ) ;
-        String inputValue = editText.getText().toString() ;
-        refresh( inputValue ) ;
+   //     EditText editText = (EditText) findViewById( R.id.editField ) ;
+    //    String inputValue = editText.getText().toString() ;
+     //   refresh( inputValue ) ;
     }
 
     private void refresh( String $inputValue ) {

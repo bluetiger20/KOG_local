@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public final class Preference {
     private static String TAG = "Preference";
@@ -130,9 +129,11 @@ public final class Preference {
             long v = prefs.getLong(key, Long.MIN_VALUE);
             return v;
         } catch (ClassCastException e) {
-            return Long.MIN_VALUE;
+           return 0;
+           // return Long.MIN_VALUE;
         }
     }
+
 
     public static String getString(final Context context, final String key) {
         SharedPreferences prefs = context

@@ -13,9 +13,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -29,6 +27,7 @@ public class MainActivity extends Activity {
 
     protected int i=0,minute=0,diff_hour,diff_min;
     boolean a=false;
+    long mills=0;
 
     @Override
     protected void onResume() {
@@ -59,9 +58,9 @@ public class MainActivity extends Activity {
 
                     if(timer == null) {
                         Date start = new Date();
-                        Preference.putLong(MainActivity.this, "start", start.getTime());
 
-                    TimerTask adTast = new TimerTask() {
+                        Preference.putLong(MainActivity.this, "start", start.getTime()-mills);
+                           TimerTask adTast = new TimerTask() {
                       public void run() {
                         mHandler.sendEmptyMessage(0);
                        }
@@ -128,7 +127,6 @@ public class MainActivity extends Activity {
         }
     };
 
-
     private String timediff(Context context) {
 
         DBContactHelper helper = new DBContactHelper(context);
@@ -136,45 +134,23 @@ public class MainActivity extends Activity {
         int id=contact.getID();
         int hour=contact.gethour();
         int min=contact.getminute();
-
-
-        /** The date at the end of the last century */
-
-     //   Date Date1 = new GregorianCalendar(Calendar.YEAR,Calendar.MONTH,Calendar.DAY_OF_MONTH, hour,min).getTime();
-
-        /** Today's date */
-        //Date Date2 = new Date();
-      /*  Log.i(TAG, "today : "+ today.getTime());
-        long diff= Math.abs((today.getTime() - d1.getTime()));
-          Date diffdate=new Date(diff);
-
-
-        Log.i(TAG, "hour : "+ diffdate.toString());
-
-        // Get msec from each, and subtract.
-        diff_hour = today.getHours() - d1.getHours();
-        diff_min=today.getMinutes()-d1.getMinutes();*/
-
         try
         {
-
-            SimpleDateFormat format = new SimpleDateFormat("hh:mm:ss aa");
+             SimpleDateFormat format = new SimpleDateFormat("hh:mm:ss aa");
 
 
             Date Date1=new Date(Preference.getLong(MainActivity.this, "start"));
             Log.i(TAG, "DAte1 : "+ Date1.toString());
             Date today = new Date();
             Log.i(TAG, "today : "+ today.toString());
-            long mills = today.getTime()-Date1.getTime();
-
+             mills = today.getTime()-Date1.getTime();
+            Preference.putLong(MainActivity.this, "diff",mills);
             int Hours = (int) (mills/(1000 * 60 * 60));
             int Mins = (int) (mills/(1000*60)) % 60;
             int Seconds = (int) (mills/1000)%60;
-            /*
-            Preference.putInt(MainActivity.this, "hour", Hours);
-            Preference.putInt(MainActivity.this, "min", Mins);
-            Preference.putInt(MainActivity.this, "second", Seconds);*/
+
             String diff = Hours + ":" + Mins+":"+Seconds; // updated value every1 second
+
             return diff;
          }
         catch (Exception e)

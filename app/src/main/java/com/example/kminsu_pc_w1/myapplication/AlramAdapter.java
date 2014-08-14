@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -64,9 +65,16 @@ public class AlramAdapter extends BaseAdapter{
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if(position==0)
+                        Toast.makeText(v.getContext(), "선택된자의 이름은 기상시간", Toast.LENGTH_SHORT).show();
+                    if(position==1)
+                        Toast.makeText(v.getContext(), "선택된자의 이름은 목표시간", Toast.LENGTH_SHORT).show();
+
                     Intent intent = new Intent(v.getContext(), Alarm_main.class);
                     intent.putExtra("position", position);
                     v.getContext().startActivity(intent);
+
+
                 }
             });
 
